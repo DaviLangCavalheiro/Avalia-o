@@ -31,7 +31,7 @@ body {
 .card {
   background: var(--surface);
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   padding: 36px 32px;
   border-radius: 20px;
   border: 1px solid var(--border);
@@ -40,7 +40,7 @@ body {
 
 .header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .badge {
@@ -68,67 +68,18 @@ body {
   margin-top: 6px;
 }
 
-/* Indicador Minimalista */
-.stepper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 28px;
-}
-
-.step-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--border);
-  transition: all 0.3s ease;
-}
-
-.step-dot.active {
-  background-color: var(--primary);
-  transform: scale(1.25);
-}
-
-.step-line {
-  width: 24px;
-  height: 2px;
-  background-color: var(--border);
-}
-
-/* Passos do Formulário */
-.step {
-  display: none;
-  animation: fadeIn 0.25s ease;
-}
-
-.step.active {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 .step h2 {
   font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-/* Cards de Opção */
-.options-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
+/* Options Grid */
 .options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 24px;
 }
 
@@ -147,10 +98,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px;
+  padding: 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-main);
   background: var(--surface);
@@ -169,39 +120,22 @@ body {
   font-weight: 600;
 }
 
-/* Botões */
-.btn {
+/* Botão */
+.btn-submit {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border-radius: var(--radius);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
+  background-color: var(--primary);
+  color: #ffffff;
   transition: background-color 0.2s ease;
 }
 
-.btn-primary, .btn-submit {
-  background-color: var(--primary);
-  color: #ffffff;
-}
-
-.btn-primary:hover, .btn-submit:hover {
+.btn-submit:hover {
   background-color: var(--primary-hover);
-}
-
-.btn-secondary {
-  background-color: #f1f5f9;
-  color: var(--text-main);
-}
-
-.btn-secondary:hover {
-  background-color: #e2e8f0;
-}
-
-.btn-group {
-  display: flex;
-  gap: 10px;
 }
 
 /* Tela de Sucesso */
@@ -225,7 +159,7 @@ body {
   display: none !important;
 }
 
-/* Botão Flutuante (FAB) */
+/* Botão Flutuante */
 .fab {
   position: fixed;
   bottom: 24px;
@@ -247,7 +181,7 @@ body {
   border-color: #cbd5e1;
 }
 
-/* Modal Minimalista */
+/* Modal */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -263,7 +197,7 @@ body {
 .modal {
   background: var(--surface);
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   max-height: 80vh;
   border-radius: 20px;
   padding: 28px;
@@ -325,29 +259,17 @@ body {
   margin-bottom: 8px;
 }
 
-.stats-list {
-  list-style: none;
-  font-size: 0.85rem;
-}
-
-.stats-list li {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-bottom: 1px dashed var(--border);
-}
-
 .pills-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  gap: 8px;
 }
 
 .pill {
   background: #f1f5f9;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 8px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   display: flex;
   justify-content: space-between;
 }
