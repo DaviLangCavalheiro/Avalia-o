@@ -5,98 +5,126 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Avaliação - API Controle Educacional</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <h1>API Controle Educacional</h1>
-      <p>Sua opinião é fundamental para melhorarmos nossa plataforma!</p>
+  <div class="main-card">
+    <header class="card-header">
+      <div class="logo-badge">API</div>
+      <h1>Controle Educacional</h1>
+      <p>Sua opinião nos ajuda a evoluir nossa plataforma!</p>
     </header>
 
-    <!-- Indicador de Progresso (Passos) -->
-    <div class="progress-bar">
-      <div class="step-dot active" id="dot-1">1</div>
-      <div class="step-dot" id="dot-2">2</div>
+    <!-- Indicador de Passos -->
+    <div class="stepper">
+      <div class="step-item active" id="dot-1">
+        <span class="step-number">1</span>
+        <span class="step-label">Melhorias</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-item" id="dot-2">
+        <span class="step-number">2</span>
+        <span class="step-label">Apresentação</span>
+      </div>
     </div>
 
     <form id="feedbackForm">
-      <!-- ETAPA 1 -->
-      <div class="step active" id="step-1">
-        <h2>Etapa 1 de 2</h2>
-        <div class="form-group">
-          <label>O que podemos melhorar?</label>
-          <div class="options-group">
-            <label class="option-card">
-              <input type="radio" name="melhoria" value="Ótima" required>
-              <span>Ótima</span>
-            </label>
-            <label class="option-card">
-              <input type="radio" name="melhoria" value="Boa">
-              <span>Boa</span>
-            </label>
-            <label class="option-card">
-              <input type="radio" name="melhoria" value="Ruim">
-              <span>Ruim</span>
-            </label>
-            <label class="option-card">
-              <input type="radio" name="melhoria" value="Péssima">
-              <span>Péssima</span>
-            </label>
-          </div>
+      <!-- ETAPA 1: O que podemos melhorar? (Texto) -->
+      <div class="step-content active" id="step-1">
+        <h2>O que podemos melhorar?</h2>
+        <div class="input-group">
+          <textarea id="melhoriaTexto" placeholder="Conte-nos o que podemos aprimorar na plataforma, recursos faltando, bugs, etc..." rows="5" required></textarea>
         </div>
-        <button type="button" class="btn btn-next" onclick="nextStep(1)">Próximo ➔</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep(1)">
+          Continuar <span>➔</span>
+        </button>
       </div>
 
-      <!-- ETAPA 2 -->
-      <div class="step" id="step-2">
-        <h2>Etapa 2 de 2</h2>
-        <div class="form-group">
-          <label for="apresentacao">O que achou da nossa apresentação?</label>
-          <textarea id="apresentacao" placeholder="Escreva aqui sua opinião sobre a apresentação..." rows="4" required></textarea>
+      <!-- ETAPA 2: O que achou da nossa apresentação? (Ótima, Boa, Ruim, Péssima) -->
+      <div class="step-content" id="step-2">
+        <h2>O que achou da nossa apresentação?</h2>
+        <div class="options-grid">
+          <label class="option-card">
+            <input type="radio" name="apresentacaoNota" value="Ótima" required>
+            <div class="option-content">
+              <span class="emoji">🤩</span>
+              <span class="title">Ótima</span>
+            </div>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="apresentacaoNota" value="Boa">
+            <div class="option-content">
+              <span class="emoji">😊</span>
+              <span class="title">Boa</span>
+            </div>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="apresentacaoNota" value="Ruim">
+            <div class="option-content">
+              <span class="emoji">😕</span>
+              <span class="title">Ruim</span>
+            </div>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="apresentacaoNota" value="Péssima">
+            <div class="option-content">
+              <span class="emoji">😞</span>
+              <span class="title">Péssima</span>
+            </div>
+          </label>
         </div>
-        <div class="btn-group">
-          <button type="button" class="btn btn-prev" onclick="prevStep(2)">➔ Voltar</button>
-          <button type="submit" class="btn btn-submit">Enviar Avaliação</button>
+        <div class="action-buttons">
+          <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+            <span>⬅</span> Voltar
+          </button>
+          <button type="submit" class="btn btn-success">
+            Enviar Avaliação ✨
+          </button>
         </div>
       </div>
     </form>
 
     <!-- Mensagem de Sucesso -->
-    <div id="mensagemSucesso" class="mensagem-sucesso hidden">
-      🎉 Obrigado! Sua avaliação sobre o <strong>API Controle Educacional</strong> foi registrada.
+    <div id="mensagemSucesso" class="success-banner hidden">
+      <div class="success-icon">🎉</div>
+      <h3>Avaliação Enviada!</h3>
+      <p>Obrigado por colaborar com a <strong>API Controle Educacional</strong>.</p>
     </div>
   </div>
 
-  <!-- Botão Flutuante no Canto da Tela -->
-  <button id="btnMetrics" class="btn-floating" title="Ver Respostas Registradas">
-    📊 Métricas
+  <!-- Botão Flutuante de Métricas -->
+  <button id="btnMetrics" class="fab-btn" title="Painel de Métricas">
+    <span class="icon">📊</span>
+    <span class="text">Métricas</span>
   </button>
 
-  <!-- Modal/Painel de Registro das Respostas -->
-  <div id="modalMetrics" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Métricas e Registros</h2>
-      <p class="modal-sub">Medição das respostas coletadas:</p>
-
-      <div class="metrics-summary">
-        <h3>Total de Respostas: <span id="totalRespostas">0</span></h3>
-        
-        <h4>O que podemos melhorar (Resumo):</h4>
-        <ul id="listaMelhorias">
-          <li>Ótima: <span>0</span></li>
-          <li>Boa: <span>0</span></li>
-          <li>Ruim: <span>0</span></li>
-          <li>Péssima: <span>0</span></li>
-        </ul>
+  <!-- Modal do Dashboard de Registros -->
+  <div id="modalMetrics" class="modal-overlay hidden">
+    <div class="modal-card">
+      <button class="close-btn" aria-label="Fechar">&times;</button>
+      
+      <div class="modal-header">
+        <h2>Métricas & Feedbacks</h2>
+        <p>Acompanhamento em tempo real das opiniões enviadas.</p>
       </div>
 
-      <hr class="divider">
+      <div class="stats-card">
+        <span class="stats-number" id="totalRespostas">0</span>
+        <span class="stats-label">Total de Avaliações</span>
+      </div>
 
-      <h3>Opiniões sobre a Apresentação:</h3>
-      <div id="historicoRespostas" class="historico-container">
-        <p class="no-data">Nenhuma resposta registrada até o momento.</p>
+      <div class="section-title">Avaliação da Apresentação</div>
+      <div class="ratings-summary" id="resumoNotas">
+        <div class="rating-badge badge-otima">Ótima: <strong id="count-otima">0</strong></div>
+        <div class="rating-badge badge-boa">Boa: <strong id="count-boa">0</strong></div>
+        <div class="rating-badge badge-ruim">Ruim: <strong id="count-ruim">0</strong></div>
+        <div class="rating-badge badge-pessima">Péssima: <strong id="count-pessima">0</strong></div>
+      </div>
+
+      <div class="section-title">Sugestões de Melhorias</div>
+      <div id="historicoRespostas" class="feedbacks-list">
+        <p class="empty-state">Nenhum registro até o momento.</p>
       </div>
     </div>
   </div>

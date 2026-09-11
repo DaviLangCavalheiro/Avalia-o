@@ -1,16 +1,15 @@
-// Recupera respostas gravadas ou inicia uma lista vazia
 let respostasRegistradas = JSON.parse(localStorage.getItem('respostasControleEducacional')) || [];
 
 document.addEventListener('DOMContentLoaded', () => {
   atualizarMetricas();
 });
 
-// Avançar Etapa
+// Avançar de etapa
 function nextStep(currentStep) {
   if (currentStep === 1) {
-    const melhoriaSelecionada = document.querySelector('input[name="melhoria"]:checked');
-    if (!melhoriaSelecionada) {
-      alert("Por favor, escolha uma opção para continuar.");
+    const melhoriaTexto = document.getElementById('melhoriaTexto').value.trim();
+    if (!melhoriaTexto) {
+      alert("Por favor, digite sua opinião no campo de texto para continuar.");
       return;
     }
   }
@@ -18,12 +17,11 @@ function nextStep(currentStep) {
   document.getElementById(`step-${currentStep}`).classList.remove('active');
   document.getElementById(`step-${currentStep + 1}`).classList.add('active');
 
-  // Atualizar os indicadores numéricos do topo
   document.getElementById(`dot-${currentStep}`).classList.remove('active');
   document.getElementById(`dot-${currentStep + 1}`).classList.add('active');
 }
 
-// Voltar Etapa
+// Voltar etapa
 function prevStep(currentStep) {
   document.getElementById(`step-${currentStep}`).classList.remove('active');
   document.getElementById(`step-${currentStep - 1}`).classList.add('active');
@@ -32,92 +30,79 @@ function prevStep(currentStep) {
   document.getElementById(`dot-${currentStep - 1}`).classList.add('active');
 }
 
-// Submissão do Formulário
+// Submeter o Formulário
 document.getElementById('feedbackForm').addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const melhoria = document.querySelector('input[name="melhoria"]:checked').value;
-  const apresentacao = document.getElementById('apresentacao').value.trim();
+  const melhoriaTexto = document.getElementById('melhoriaTexto').value.trim();
+  const apresentacaoNota = document.querySelector('input[name="apresentacaoNota"]:checked').value;
 
-  // Objeto com a resposta coletada
   const novaResposta = {
     id: Date.now(),
-    melhoria,
-    apresentacao,
-    data: new Date().toLocaleDateString('pt-BR') + " às " + new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})
+    melhoriaTexto,
+    apresentacaoNota,
+    data: new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
   };
 
-  // Salva no array e armazena localmente
   respostasRegistradas.push(novaResposta);
   localStorage.setItem('respostasControleEducacional', JSON.stringify(respostasRegistradas));
 
-  // Atualiza a modal de métricas
   atualizarMetricas();
 
-  // Limpa e reseta a interface
+  // Oculta o formulário e exibe tela de sucesso
   document.getElementById('feedbackForm').reset();
   document.getElementById('step-2').classList.remove('active');
-  document.getElementById('dot-2').classList.remove('active');
-  
   document.getElementById('mensagemSucesso').classList.remove('hidden');
 
-  // Volta o formulário para a Etapa 1 após 3 segundos
+  // Reinicia para uma nova avaliação após 3.5s
   setTimeout(() => {
     document.getElementById('mensagemSucesso').classList.add('hidden');
     document.getElementById('step-1').classList.add('active');
+    document.getElementById('dot-2').classList.remove('active');
     document.getElementById('dot-1').classList.add('active');
-  }, 3000);
+  }, 3500);
 });
 
-/* Lógica do Modal de Métricas */
+/* Modal de Métricas */
 const modal = document.getElementById('modalMetrics');
 const btnMetrics = document.getElementById('btnMetrics');
-const closeModal = document.querySelector('.close-modal');
+const closeBtn = document.querySelector('.close-btn');
 
-btnMetrics.onclick = () => {
-  modal.classList.remove('hidden');
+btnMetrics.onclick = () => modal.classList.remove('hidden');
+closeBtn.onclick = () => modal.classList.add('hidden');
+
+window.onclick = (e) => {
+  if (e.target === modal) modal.classList.add('hidden');
 };
 
-closeModal.onclick = () => {
-  modal.classList.add('hidden');
-};
-
-window.onclick = (event) => {
-  if (event.target === modal) {
-    modal.classList.add('hidden');
-  }
-};
-
-// Atualização dos números e feedbacks na janela de métricas
+// Atualiza o painel de estatísticas
 function atualizarMetricas() {
   document.getElementById('totalRespostas').innerText = respostasRegistradas.length;
 
   const contagem = { Ótima: 0, Boa: 0, Ruim: 0, Péssima: 0 };
 
   respostasRegistradas.forEach(r => {
-    if (contagem[r.melhoria] !== undefined) {
-      contagem[r.melhoria]++;
+    if (contagem[r.apresentacaoNota] !== undefined) {
+      contagem[r.apresentacaoNota]++;
     }
   });
 
-  document.getElementById('listaMelhorias').innerHTML = `
-    <li>Ótima: <strong>${contagem.Ótima}</strong></li>
-    <li>Boa: <strong>${contagem.Boa}</strong></li>
-    <li>Ruim: <strong>${contagem.Ruim}</strong></li>
-    <li>Péssima: <strong>${contagem.Péssima}</strong></li>
-  `;
+  document.getElementById('count-otima').innerText = contagem.Ótima;
+  document.getElementById('count-boa').innerText = contagem.Boa;
+  document.getElementById('count-ruim').innerText = contagem.Ruim;
+  document.getElementById('count-pessima').innerText = contagem.Péssima;
 
   const historicoContainer = document.getElementById('historicoRespostas');
   
   if (respostasRegistradas.length === 0) {
-    historicoContainer.innerHTML = '<p class="no-data">Nenhuma resposta registrada até o momento.</p>';
+    historicoContainer.innerHTML = '<p class="empty-state">Nenhum registro até o momento.</p>';
     return;
   }
 
   historicoContainer.innerHTML = respostasRegistradas.slice().reverse().map(r => `
-    <div class="card-resposta">
-      <p><strong>Avaliação:</strong> ${r.melhoria} <small style="color:#777">(${r.data})</small></p>
-      <p><strong>Apresentação:</strong> "${r.apresentacao}"</p>
+    <div class="feedback-card">
+      <p><strong>Sugestão:</strong> "${r.melhoriaTexto}"</p>
+      <small>Avaliou a apresentação como <strong>${r.apresentacaoNota}</strong> • ${r.data}</small>
     </div>
   `).join('');
 }
