@@ -11,69 +11,108 @@
   <div class="container">
     <header>
       <h1>API Controle Educacional</h1>
-      <p>Sua opinião é fundamental para melhorarmos nossa plataforma de registro educacional!</p>
+      <p>Sua opinião é fundamental para melhorarmos nossa plataforma!</p>
     </header>
 
+    <!-- Indicador de Progresso -->
+    <div class="progress-bar">
+      <div class="step-dot active">1</div>
+      <div class="step-dot">2</div>
+      <div class="step-dot">3</div>
+    </div>
+
     <form id="feedbackForm">
-      <!-- Nome -->
-      <div class="form-group">
-        <label for="nome">Seu Nome:</label>
-        <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+      <!-- ETAPA 1 -->
+      <div class="step active" id="step-1">
+        <h2>Etapa 1 de 3</h2>
+        <div class="form-group">
+          <label>O que podemos melhorar?</label>
+          <div class="options-group">
+            <label class="option-card">
+              <input type="radio" name="melhoria" value="Ótima" required>
+              <span>Ótima</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="melhoria" value="Boa">
+              <span>Boa</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="melhoria" value="Ruim">
+              <span>Ruim</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="melhoria" value="Péssima">
+              <span>Péssima</span>
+            </label>
+          </div>
+        </div>
+        <button type="button" class="btn btn-next" onclick="nextStep(1)">Próximo ➔</button>
       </div>
 
-      <!-- E-mail -->
-      <div class="form-group">
-        <label for="email">E-mail de Contato:</label>
-        <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
-      </div>
-
-      <!-- Perfil do Usuário -->
-      <div class="form-group">
-        <label for="perfil">Qual o seu perfil de uso?</label>
-        <select id="perfil" required>
-          <option value="" disabled selected>Selecione uma opção</option>
-          <option value="Aluno">Aluno</option>
-          <option value="Professor">Professor</option>
-          <option value="Administrador/Gestor">Administrador / Gestor</option>
-          <option value="Outro">Outro</option>
-        </select>
-      </div>
-
-      <!-- Avaliação por Estrelas -->
-      <div class="form-group">
-        <label>Como você avalia o sistema em geral?</label>
-        <div class="rating-stars">
-          <input type="radio" id="star5" name="rating" value="5" required>
-          <label for="star5" title="Excelente">★</label>
-          <input type="radio" id="star4" name="rating" value="4">
-          <label for="star4" title="Muito bom">★</label>
-          <input type="radio" id="star3" name="rating" value="3">
-          <label for="star3" title="Razoável">★</label>
-          <input type="radio" id="star2" name="rating" value="2">
-          <label for="star2" title="Ruim">★</label>
-          <input type="radio" id="star1" name="rating" value="1">
-          <label for="star1" title="Péssimo">★</label>
+      <!-- ETAPA 2 -->
+      <div class="step" id="step-2">
+        <h2>Etapa 2 de 3</h2>
+        <div class="form-group">
+          <label for="apresentacao">O que achou da nossa apresentação?</label>
+          <textarea id="apresentacao" placeholder="Escreva aqui o que achou da apresentação..." rows="4" required></textarea>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-prev" onclick="prevStep(2)">➔ Voltar</button>
+          <button type="button" class="btn btn-next" onclick="nextStep(2)">Próximo ➔</button>
         </div>
       </div>
 
-      <!-- Opinião / Pontos Positivos -->
-      <div class="form-group">
-        <label for="opiniao">O que você mais gosta na plataforma?</label>
-        <textarea id="opiniao" rows="3" placeholder="Conte-nos os pontos fortes..."></textarea>
+      <!-- ETAPA 3 -->
+      <div class="step" id="step-3">
+        <h2>Etapa 3 de 3</h2>
+        <p class="summary-text">Quase lá! Insira seu nome ou e-mail (opcional) para finalizar o envio.</p>
+        <div class="form-group">
+          <label for="identificacao">Seu Nome ou E-mail:</label>
+          <input type="text" id="identificacao" placeholder="Digite seu nome ou e-mail">
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-prev" onclick="prevStep(3)">➔ Voltar</button>
+          <button type="submit" class="btn btn-submit">Enviar Avaliação</button>
+        </div>
       </div>
-
-      <!-- Sugestões de Melhoria -->
-      <div class="form-group">
-        <label for="melhorias">O que podemos melhorar?</label>
-        <textarea id="melhorias" rows="4" placeholder="Recursos faltando, bugs, problemas de usabilidade, etc." required></textarea>
-      </div>
-
-      <button type="submit" class="btn-submit">Enviar Avaliação</button>
     </form>
 
-    <!-- Mensagem de Sucesso (Oculta por padrão) -->
+    <!-- Mensagem de Sucesso -->
     <div id="mensagemSucesso" class="mensagem-sucesso hidden">
-      🎉 Obrigado! Sua avaliação sobre o <strong>API Controle Educacional</strong> foi enviada com sucesso.
+      🎉 Obrigado! Sua avaliação sobre o <strong>API Controle Educacional</strong> foi registrada.
+    </div>
+  </div>
+
+  <!-- Botão Flutuante para Acessar Métricas/Registros -->
+  <button id="btnMetrics" class="btn-floating" title="Ver Respostas Registradas">
+    📊 Métricas
+  </button>
+
+  <!-- Modal / Painel de Registro de Respostas -->
+  <div id="modalMetrics" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Registros e Métricas das Respostas</h2>
+      <p class="modal-sub">Resumo das opiniões enviadas sobre a plataforma e apresentação:</p>
+
+      <div class="metrics-summary">
+        <h3>Total de Envios: <span id="totalRespostas">0</span></h3>
+        
+        <h4>O que podemos melhorar:</h4>
+        <ul id="listaMelhorias">
+          <li>Ótima: <span>0</span></li>
+          <li>Boa: <span>0</span></li>
+          <li>Ruim: <span>0</span></li>
+          <li>Péssima: <span>0</span></li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <h3>Apresentações e Feedbacks Recebidos:</h3>
+      <div id="historicoRespostas" class="historico-container">
+        <p class="no-data">Nenhuma resposta registrada até o momento.</p>
+      </div>
     </div>
   </div>
 
