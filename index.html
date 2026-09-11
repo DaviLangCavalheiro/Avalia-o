@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação - API Controle Educacional</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <div class="container">
+    <header>
+      <h1>API Controle Educacional</h1>
+      <p>Sua opinião é fundamental para melhorarmos nossa plataforma de registro educacional!</p>
+    </header>
+
+    <form id="feedbackForm">
+      <!-- Nome -->
+      <div class="form-group">
+        <label for="nome">Seu Nome:</label>
+        <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+      </div>
+
+      <!-- E-mail -->
+      <div class="form-group">
+        <label for="email">E-mail de Contato:</label>
+        <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
+      </div>
+
+      <!-- Perfil do Usuário -->
+      <div class="form-group">
+        <label for="perfil">Qual o seu perfil de uso?</label>
+        <select id="perfil" required>
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="Aluno">Aluno</option>
+          <option value="Professor">Professor</option>
+          <option value="Administrador/Gestor">Administrador / Gestor</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <!-- Avaliação por Estrelas -->
+      <div class="form-group">
+        <label>Como você avalia o sistema em geral?</label>
+        <div class="rating-stars">
+          <input type="radio" id="star5" name="rating" value="5" required>
+          <label for="star5" title="Excelente">★</label>
+          <input type="radio" id="star4" name="rating" value="4">
+          <label for="star4" title="Muito bom">★</label>
+          <input type="radio" id="star3" name="rating" value="3">
+          <label for="star3" title="Razoável">★</label>
+          <input type="radio" id="star2" name="rating" value="2">
+          <label for="star2" title="Ruim">★</label>
+          <input type="radio" id="star1" name="rating" value="1">
+          <label for="star1" title="Péssimo">★</label>
+        </div>
+      </div>
+
+      <!-- Opinião / Pontos Positivos -->
+      <div class="form-group">
+        <label for="opiniao">O que você mais gosta na plataforma?</label>
+        <textarea id="opiniao" rows="3" placeholder="Conte-nos os pontos fortes..."></textarea>
+      </div>
+
+      <!-- Sugestões de Melhoria -->
+      <div class="form-group">
+        <label for="melhorias">O que podemos melhorar?</label>
+        <textarea id="melhorias" rows="4" placeholder="Recursos faltando, bugs, problemas de usabilidade, etc." required></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Enviar Avaliação</button>
+    </form>
+
+    <!-- Mensagem de Sucesso (Oculta por padrão) -->
+    <div id="mensagemSucesso" class="mensagem-sucesso hidden">
+      🎉 Obrigado! Sua avaliação sobre o <strong>API Controle Educacional</strong> foi enviada com sucesso.
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
