@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
   atualizarMetricas();
 });
 
-// Avançar de etapa
+// Avançar etapa
 function nextStep(currentStep) {
   if (currentStep === 1) {
-    const melhoriaTexto = document.getElementById('melhoriaTexto').value.trim();
-    if (!melhoriaTexto) {
-      alert("Por favor, digite sua opinião no campo de texto para continuar.");
+    const melhoriaOpcao = document.querySelector('input[name="melhoriaOpcao"]:checked');
+    if (!melhoriaOpcao) {
+      alert("Por favor, escolha uma das opções para prosseguir.");
       return;
     }
   }
@@ -30,16 +30,16 @@ function prevStep(currentStep) {
   document.getElementById(`dot-${currentStep - 1}`).classList.add('active');
 }
 
-// Submeter o Formulário
+// Envio do formulário
 document.getElementById('feedbackForm').addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const melhoriaTexto = document.getElementById('melhoriaTexto').value.trim();
+  const melhoriaOpcao = document.querySelector('input[name="melhoriaOpcao"]:checked').value;
   const apresentacaoNota = document.querySelector('input[name="apresentacaoNota"]:checked').value;
 
   const novaResposta = {
     id: Date.now(),
-    melhoriaTexto,
+    melhoriaOpcao,
     apresentacaoNota,
     data: new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
   };
@@ -49,21 +49,21 @@ document.getElementById('feedbackForm').addEventListener('submit', (e) => {
 
   atualizarMetricas();
 
-  // Oculta o formulário e exibe tela de sucesso
+  // Oculta e exibe confirmação
   document.getElementById('feedbackForm').reset();
   document.getElementById('step-2').classList.remove('active');
   document.getElementById('mensagemSucesso').classList.remove('hidden');
 
-  // Reinicia para uma nova avaliação após 3.5s
+  // Reseta para novo teste após 3 segundos
   setTimeout(() => {
     document.getElementById('mensagemSucesso').classList.add('hidden');
     document.getElementById('step-1').classList.add('active');
     document.getElementById('dot-2').classList.remove('active');
     document.getElementById('dot-1').classList.add('active');
-  }, 3500);
+  }, 3000);
 });
 
-/* Modal de Métricas */
+/* Modal / Métricas */
 const modal = document.getElementById('modalMetrics');
 const btnMetrics = document.getElementById('btnMetrics');
 const closeBtn = document.querySelector('.close-btn');
@@ -75,34 +75,37 @@ window.onclick = (e) => {
   if (e.target === modal) modal.classList.add('hidden');
 };
 
-// Atualiza o painel de estatísticas
 function atualizarMetricas() {
   document.getElementById('totalRespostas').innerText = respostasRegistradas.length;
 
-  const contagem = { Ótima: 0, Boa: 0, Ruim: 0, Péssima: 0 };
+  const contagemMelhoria = { 'Melhorar apresentação': 0, 'Melhorar o site': 0, 'Melhorar as ideias': 0 };
+  const contagemNota = { Ótima: 0, Boa: 0, Ruim: 0, Péssima: 0 };
 
   respostasRegistradas.forEach(r => {
-    if (contagem[r.apresentacaoNota] !== undefined) {
-      contagem[r.apresentacaoNota]++;
-    }
+    if (contagemMelhoria[r.melhoriaOpcao] !== undefined) contagemMelhoria[r.melhoriaOpcao]++;
+    if (contagemNota[r.apresentacaoNota] !== undefined) contagemNota[r.apresentacaoNota]++;
   });
 
-  document.getElementById('count-otima').innerText = contagem.Ótima;
-  document.getElementById('count-boa').innerText = contagem.Boa;
-  document.getElementById('count-ruim').innerText = contagem.Ruim;
-  document.getElementById('count-pessima').innerText = contagem.Péssima;
+  // Atualiza indicadores
+  document.getElementById('count-apresentacao').innerText = contagemMelhoria['Melhorar apresentação'];
+  document.getElementById('count-site').innerText = contagemMelhoria['Melhorar o site'];
+  document.getElementById('count-ideias').innerText = contagemMelhoria['Melhorar as ideias'];
 
-  const historicoContainer = document.getElementById('historicoRespostas');
-  
+  document.getElementById('count-otima').innerText = contagemNota.Ótima;
+  document.getElementById('count-boa').innerText = contagemNota.Boa;
+  document.getElementById('count-ruim').innerText = contagemNota.Ruim;
+  document.getElementById('count-pessima').innerText = contagemNota.Péssima;
+
+  // Lista simples
+  const historico = document.getElementById('historicoRespostas');
   if (respostasRegistradas.length === 0) {
-    historicoContainer.innerHTML = '<p class="empty-state">Nenhum registro até o momento.</p>';
+    historico.innerHTML = '<p class="empty">Nenhum registro ainda.</p>';
     return;
   }
 
-  historicoContainer.innerHTML = respostasRegistradas.slice().reverse().map(r => `
-    <div class="feedback-card">
-      <p><strong>Sugestão:</strong> "${r.melhoriaTexto}"</p>
-      <small>Avaliou a apresentação como <strong>${r.apresentacaoNota}</strong> • ${r.data}</small>
+  historico.innerHTML = respostasRegistradas.slice().reverse().map(r => `
+    <div class="history-item">
+      <strong>${r.melhoriaOpcao}</strong> • Nota: ${r.apresentacaoNota}
     </div>
   `).join('');
 }
